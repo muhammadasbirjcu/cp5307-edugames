@@ -11,9 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asbir.cp5307.edugames.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class LandingActivity extends AppCompatActivity {
-    private EditText nameInput;
+    private TextInputEditText nameInput;
     private Button saveButton;
 
     @Override
@@ -21,8 +22,8 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        Button saveButton = findViewById(R.id.playButton);
-        EditText nameInput = findViewById(R.id.name_input);
+        saveButton = findViewById(R.id.playButton);
+        nameInput = findViewById(R.id.name_input);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

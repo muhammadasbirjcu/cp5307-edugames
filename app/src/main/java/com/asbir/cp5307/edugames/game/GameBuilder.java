@@ -35,7 +35,7 @@ public class GameBuilder {
             }
 
         }
-        return new Game(questions);
+        return new Game(difficulty, questions);
     }
 
     /**

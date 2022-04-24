@@ -4,12 +4,15 @@ public class Game {
     private Question[] questions;
     private int pointer;
     private int score;
+    private Difficulty difficulty;
+    private String player;
 
 
-    public Game(Question[] questions){
+    public Game(Difficulty difficulty, Question[] questions){
         this.pointer = -1;
         this.score = 0;
         this.questions = questions;
+        this.difficulty = difficulty;
     }
 
     /**
@@ -59,5 +62,17 @@ public class Game {
      */
     public int count(){
         return this.questions.length;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
     }
 }

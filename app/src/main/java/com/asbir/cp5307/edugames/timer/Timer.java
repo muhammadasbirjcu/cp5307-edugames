@@ -1,8 +1,11 @@
 package com.asbir.cp5307.edugames.timer;
 
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import java.util.Locale;
 
 public class Timer {
     private int duration;
@@ -46,7 +49,9 @@ public class Timer {
         try{
             handler.removeCallbacks(runnable);
             isRunning = false;
-        }catch (Exception ex){}
+        }catch (Exception ex){
+            Log.e("Timer", "reset", ex);
+        }
         this.secondsRemaining = this.duration;
     }
 
@@ -61,10 +66,11 @@ public class Timer {
     @NonNull
     @Override
     public String toString(){
-        int hours = secondsRemaining / 3600;
-        int minutes = (secondsRemaining % 3600) / 60;
-        int seconds = (secondsRemaining % 3600) % 60;
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return String.format(Locale.getDefault(), "Time remaining: %02d", secondsRemaining);
+//        int hours = secondsRemaining / 3600;
+//        int minutes = (secondsRemaining % 3600) / 60;
+//        int seconds = (secondsRemaining % 3600) % 60;
+//        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     public boolean getIsRunning(){
