@@ -21,10 +21,15 @@ public class LandingActivity extends AppCompatActivity {
 
         Button playButton = findViewById(R.id.playButton);
         Button topScoresButton = findViewById(R.id.topScoreButton);
+        Button settingsButton = findViewById(R.id.settingsButton);
 
         playButton.setOnClickListener(view -> startGameActivity());
 
         topScoresButton.setOnClickListener(view -> startLeaderboardActivity());
+
+        settingsButton.setOnClickListener(view -> startSettingsActivity());
+
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
