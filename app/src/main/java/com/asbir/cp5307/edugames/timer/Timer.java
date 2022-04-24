@@ -59,6 +59,14 @@ public class Timer {
         secondsRemaining--;
     }
 
+    public int getSecondsRemaining() {
+        return secondsRemaining;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
     public boolean timeHasElapsed(){
         return this.secondsRemaining <= 0;
     }

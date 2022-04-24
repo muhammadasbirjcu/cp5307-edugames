@@ -57,7 +57,7 @@ public class GameActivity extends AppCompatActivity implements StateListener {
         timer.setTickHandler(timer -> {
             if(timer.getIsRunning()){
                 // updates the countdown timer
-                statusFragment.setMessage(timer.toString());
+                statusFragment.setTimePosition(timer.getSecondsRemaining(), timer.getDuration());
             }
             if(timer.timeHasElapsed()){
                 // stop the game when time has elapsed
@@ -75,10 +75,11 @@ public class GameActivity extends AppCompatActivity implements StateListener {
                 game.setPlayer("");
                 questionFragment.setQuestion(game.next());
                 questionFragment.show();
+                statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
                 timer.start();
                 break;
             case CONTINUE_GAME:
-                statusFragment.setScoreMessage(game.getFormattedScore());
+                statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
                 if(game.isGameOver()){
                     this.onUpdate(State.GAME_OVER);
                 }else{
@@ -86,8 +87,12 @@ public class GameActivity extends AppCompatActivity implements StateListener {
                 }
                 break;
             case GAME_OVER:
+                if(timer.timeHasElapsed()){
+                    statusFragment.setMessage(getResources().getString(R.string.time_is_up));
+                }else{
+                    statusFragment.setMessage(getResources().getString(R.string.game_completed));
+                }
                 timer.reset();
-                statusFragment.setMessage("Game Over!");
                 questionFragment.hideAnswers();
                 break;
         }
@@ -96,6 +101,6 @@ public class GameActivity extends AppCompatActivity implements StateListener {
     @Override
     public void onCorrectAnswer() {
         game.incrementScore(1);
-        statusFragment.setScoreMessage(game.getFormattedScore());
+        statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
     }
 }

@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.game.state.StateListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class StatusFragment extends Fragment {
     private StateListener listener;
     private TextView message;
     private TextView score;
+    private LinearProgressIndicator gameProgressIndicator;
 
     public StatusFragment() {
         // Required empty public constructor
@@ -42,6 +45,7 @@ public class StatusFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         message = view.findViewById(R.id.messageText);
         score = view.findViewById(R.id.scoreText);
+        gameProgressIndicator = view.findViewById(R.id.gameProgressIndicator);
         return view;
     }
 
@@ -51,5 +55,10 @@ public class StatusFragment extends Fragment {
 
     public void setScoreMessage(String scoreMessage) {
         this.score.setText(scoreMessage);
+    }
+
+    public void setTimePosition(int current, int max){
+        gameProgressIndicator.setMax(max);
+        gameProgressIndicator.setProgress(current);
     }
 }

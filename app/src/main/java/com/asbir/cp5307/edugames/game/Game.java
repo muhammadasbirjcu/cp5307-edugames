@@ -44,8 +44,16 @@ public class Game {
      * Get formatted score
      * @return
      */
-    public String getFormattedScore(){
-        return String.format("Score: %d/%d",this.score, this.questions.length);
+    public String getFormattedScore(String format){
+        return String.format(format,this.score, this.questions.length);
+    }
+
+    /**
+     * Get formatted score
+     * @return
+     */
+    public String getFormattedGameProgression(String format){
+        return String.format(format,this.pointer+1, this.questions.length);
     }
 
     /**
@@ -74,5 +82,9 @@ public class Game {
 
     public void setPlayer(String player) {
         this.player = player;
+    }
+
+    public int getPointer() {
+        return pointer;
     }
 }
