@@ -10,6 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EduGames">
         <activity
+            android:name=".activities.LeaderboardActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.LandingActivity" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.LandingActivity" />
+        <activity
             android:name=".activities.GameActivity"
             android:exported="false" />
         <activity
