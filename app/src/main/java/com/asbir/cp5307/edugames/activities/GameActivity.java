@@ -1,22 +1,18 @@
 package com.asbir.cp5307.edugames.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.Button;
-
 import com.asbir.cp5307.edugames.R;
-import com.asbir.cp5307.edugames.database.DBHelper;
 import com.asbir.cp5307.edugames.fragments.QuestionFragment;
 import com.asbir.cp5307.edugames.fragments.StatusFragment;
-import com.asbir.cp5307.edugames.game.Difficulty;
 import com.asbir.cp5307.edugames.game.Game;
 import com.asbir.cp5307.edugames.game.GameBuilder;
 import com.asbir.cp5307.edugames.game.GameSettings;
@@ -24,6 +20,7 @@ import com.asbir.cp5307.edugames.game.QuestionImageManager;
 import com.asbir.cp5307.edugames.game.state.State;
 import com.asbir.cp5307.edugames.game.state.StateListener;
 import com.asbir.cp5307.edugames.models.Score;
+import com.asbir.cp5307.edugames.sensors.ShakeDetector;
 import com.asbir.cp5307.edugames.timer.Timer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,6 +34,10 @@ public class GameActivity extends BaseActivity implements StateListener {
     private Timer timer;
     private int winSound;
     private int completedSound;
+
+    private SensorManager sensorManager;
+    private Sensor sensor;
+    ShakeDetector shakeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,14 @@ public class GameActivity extends BaseActivity implements StateListener {
 
         gameBuilder = new GameBuilder(new QuestionImageManager(getAssets(), "celebs"));
 
+        // load settings
         settings = new GameSettings();
         loadSettings();
 
+        // set-up shake detector
+        initSensors();
+
+        // fab click
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,12 +76,34 @@ public class GameActivity extends BaseActivity implements StateListener {
     protected void onStart() {
         super.onStart();
         initiateTimer();
+        sensorManager.registerListener(shakeDetector, sensor, SensorManager.SENSOR_DELAY_UI);
         onUpdate(State.START_GAME);
+    }
+
+    @Override
+    protected void onPause() {
+        if(shakeDetector != null) sensorManager.unregisterListener(shakeDetector);
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private void initSensors(){
+        shakeDetector = new ShakeDetector();
+        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake(int count) {
+                restartGame();
+            }
+        });
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
     }
 
     private void initiateTimer(){
@@ -152,4 +180,5 @@ public class GameActivity extends BaseActivity implements StateListener {
         game.incrementScore(1);
         statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
     }
+
 }
