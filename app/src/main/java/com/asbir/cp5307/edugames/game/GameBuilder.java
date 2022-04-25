@@ -6,11 +6,19 @@ import java.io.IOException;
 
 public class GameBuilder {
     private QuestionImageManager manager;
-    private int numberOfQuestions;
 
     public GameBuilder(QuestionImageManager manager){
         this.manager = manager;
-        this.numberOfQuestions = manager.count();
+    }
+
+
+    /**
+     * Create a new game with maximum number of questions
+     * @param difficulty
+     * @return
+     */
+    public Game create(Difficulty difficulty){
+        return create(difficulty, manager.count());
     }
 
     /**
@@ -18,7 +26,7 @@ public class GameBuilder {
      * @param difficulty
      * @return
      */
-    public Game create(Difficulty difficulty){
+    public Game create(Difficulty difficulty, int numberOfQuestions){
         int possibleAnswers = possibleAnswers(difficulty);
 
         Question[] questions = new Question[numberOfQuestions];

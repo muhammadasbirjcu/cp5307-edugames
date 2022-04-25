@@ -9,10 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.asbir.cp5307.edugames.R;
+import com.asbir.cp5307.edugames.game.GameSettings;
 
-public class LandingActivity extends AppCompatActivity {
+public class LandingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +24,27 @@ public class LandingActivity extends AppCompatActivity {
         Button playButton = findViewById(R.id.playButton);
         Button topScoresButton = findViewById(R.id.topScoreButton);
         Button settingsButton = findViewById(R.id.settingsButton);
+        settings = new GameSettings();
 
         playButton.setOnClickListener(view -> startGameActivity());
 
         topScoresButton.setOnClickListener(view -> startLeaderboardActivity());
 
         settingsButton.setOnClickListener(view -> startSettingsActivity());
-
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ((TextView)findViewById(R.id.player_name)).setText(settings.getPlayerName() + "!");
+        ((TextView)findViewById(R.id.difficulty_text)).setText(
+                String.format(
+                        getResources().getString(R.string.difficulty_information),
+                        settings.getDifficulty().toString()
+                )
+        );
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.settingsMenu){

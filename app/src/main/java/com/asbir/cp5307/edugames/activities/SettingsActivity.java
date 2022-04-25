@@ -19,15 +19,15 @@ import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
     private TextInputEditText nameInput;
     private SwitchMaterial audioSwitch;
     private TextView gameDurationText;
     private Slider durationSlider;
     private Spinner difficultySpinner;
     private Button doneButton;
+    private TextInputEditText maxQuestionsInput;
 
-    private GameSettings settings;
     private String durationFormat;
 
 
@@ -43,11 +43,11 @@ public class SettingsActivity extends AppCompatActivity {
         durationSlider = findViewById(R.id.duration_slider);
         doneButton = findViewById(R.id.done_button);
         difficultySpinner = findViewById(R.id.difficulty_spinner);
+        maxQuestionsInput = findViewById(R.id.max_questions_input);
+
         durationFormat = getResources().getString(R.string.game_duration);
 
         settings = new GameSettings();
-        settings.load(getSharedPreferences(GameSettings.PREFERENCE_KEY, MODE_PRIVATE));
-        settingsToUI();
 
         // done button listener
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -76,16 +76,13 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         uiToSettings();
-        settings.save(getSharedPreferences(GameSettings.PREFERENCE_KEY, MODE_PRIVATE).edit());
         super.onPause();
     }
 
-
     @Override
     protected void onResume() {
-        settings.load(getSharedPreferences(GameSettings.PREFERENCE_KEY, MODE_PRIVATE));
-        settingsToUI();
         super.onResume();
+        settingsToUI();
     }
 
     private void settingsToUI(){
@@ -95,6 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
         durationSlider.setValue(settings.getDuration());
         gameDurationText.setText(String.format(durationFormat, durationSlider.getValue()));
         difficultySpinner.setSelection(settings.getDifficulty().ordinal());
+        maxQuestionsInput.setText(String.valueOf(settings.getMaxQuestions()));
     }
 
     private void uiToSettings(){
@@ -103,6 +101,7 @@ public class SettingsActivity extends AppCompatActivity {
         settings.setAudioEnabled(audioSwitch.isChecked());
         settings.setDuration(Math.round(durationSlider.getValue()));
         settings.setDifficulty(Difficulty.values()[difficultySpinner.getSelectedItemPosition()]);
+        settings.setMaxQuestions(Integer.valueOf(maxQuestionsInput.getText().toString()));
     }
 
     private void startLandingActivity(){

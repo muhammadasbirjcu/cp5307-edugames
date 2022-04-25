@@ -7,44 +7,67 @@
     tools:context=".activities.LandingActivity">
     <TextView
         android:id="@+id/welcome"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:gravity="center"
         android:text="@string/welcome"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/player_name"
+        app:layout_constraintStart_toStartOf="@id/landing_button_list"
+        app:layout_constraintEnd_toEndOf="@id/landing_button_list" />
 
-    <Button
-        android:id="@+id/playButton"
+    <TextView
+        android:id="@+id/player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/player_default"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@id/landing_button_list"
+        app:layout_constraintStart_toStartOf="@id/landing_button_list"
+        app:layout_constraintEnd_toEndOf="@id/landing_button_list"
+        />
+
+    <LinearLayout
+        android:id="@+id/landing_button_list"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/lets_play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/topScoreButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/top_scores"
-        app:layout_constraintEnd_toEndOf="@+id/playButton"
-        app:layout_constraintStart_toStartOf="@+id/playButton"
-        app:layout_constraintTop_toBottomOf="@+id/playButton" />
+        <Button
+            android:id="@+id/playButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/lets_play" />
 
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/settings"
-        app:layout_constraintEnd_toEndOf="@+id/playButton"
-        app:layout_constraintStart_toStartOf="@+id/playButton"
-        app:layout_constraintTop_toBottomOf="@+id/topScoreButton" />
+        <TextView
+            android:id="@+id/difficulty_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/difficulty_information"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <Button
+            android:id="@+id/topScoreButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/top_scores" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/settings" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

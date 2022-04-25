@@ -16,19 +16,19 @@ import com.asbir.cp5307.edugames.fragments.StatusFragment;
 import com.asbir.cp5307.edugames.game.Difficulty;
 import com.asbir.cp5307.edugames.game.Game;
 import com.asbir.cp5307.edugames.game.GameBuilder;
+import com.asbir.cp5307.edugames.game.GameSettings;
 import com.asbir.cp5307.edugames.game.QuestionImageManager;
 import com.asbir.cp5307.edugames.game.state.State;
 import com.asbir.cp5307.edugames.game.state.StateListener;
 import com.asbir.cp5307.edugames.timer.Timer;
 
-public class GameActivity extends AppCompatActivity implements StateListener {
+public class GameActivity extends BaseActivity implements StateListener {
 
     private StatusFragment statusFragment;
     private QuestionFragment questionFragment;
     private GameBuilder gameBuilder;
     private Game game;
     private Timer timer;
-    private Difficulty level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,8 @@ public class GameActivity extends AppCompatActivity implements StateListener {
 
         gameBuilder = new GameBuilder(new QuestionImageManager(getAssets(), "celebs"));
 
-        level = Difficulty.MEDIUM;
+        settings = new GameSettings();
+        loadSettings();
     }
 
     @Override
@@ -71,8 +72,8 @@ public class GameActivity extends AppCompatActivity implements StateListener {
 
         switch (state) {
             case START_GAME:
-                game = gameBuilder.create(level);
-                game.setPlayer("");
+                game = gameBuilder.create(settings.getDifficulty(), settings.getMaxQuestions());
+                game.setPlayer(settings.getPlayerName());
                 questionFragment.setQuestion(game.next());
                 questionFragment.show();
                 statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
