@@ -75,6 +75,7 @@ public class GameActivity extends AppCompatActivity implements StateListener {
                 game.setPlayer("");
                 questionFragment.setQuestion(game.next());
                 questionFragment.show();
+                statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
                 statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
                 timer.start();
                 break;
