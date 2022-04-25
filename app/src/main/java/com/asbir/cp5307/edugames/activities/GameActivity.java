@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.asbir.cp5307.edugames.R;
+import com.asbir.cp5307.edugames.database.DBHelper;
 import com.asbir.cp5307.edugames.fragments.QuestionFragment;
 import com.asbir.cp5307.edugames.fragments.StatusFragment;
 import com.asbir.cp5307.edugames.game.Difficulty;
@@ -20,6 +21,7 @@ import com.asbir.cp5307.edugames.game.GameSettings;
 import com.asbir.cp5307.edugames.game.QuestionImageManager;
 import com.asbir.cp5307.edugames.game.state.State;
 import com.asbir.cp5307.edugames.game.state.StateListener;
+import com.asbir.cp5307.edugames.models.Score;
 import com.asbir.cp5307.edugames.timer.Timer;
 
 public class GameActivity extends BaseActivity implements StateListener {
@@ -74,12 +76,15 @@ public class GameActivity extends BaseActivity implements StateListener {
             case START_GAME:
                 game = gameBuilder.create(settings.getDifficulty(), settings.getMaxQuestions());
                 game.setPlayer(settings.getPlayerName());
+
                 questionFragment.setQuestion(game.next());
                 questionFragment.show();
+
                 statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
                 statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
                 timer.start();
                 break;
+
             case CONTINUE_GAME:
                 statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
                 if(game.isGameOver()){
@@ -88,14 +93,20 @@ public class GameActivity extends BaseActivity implements StateListener {
                     questionFragment.setQuestion(game.next());
                 }
                 break;
+
             case GAME_OVER:
                 if(timer.timeHasElapsed()){
                     statusFragment.setMessage(getResources().getString(R.string.time_is_up));
                 }else{
                     statusFragment.setMessage(getResources().getString(R.string.game_completed));
                 }
+                int remainingTime = timer.getSecondsRemaining();
                 timer.reset();
                 questionFragment.hideAnswers();
+
+                //save to database
+                getDBHelper().insert(new Score(game, remainingTime));
+
                 break;
         }
     }
