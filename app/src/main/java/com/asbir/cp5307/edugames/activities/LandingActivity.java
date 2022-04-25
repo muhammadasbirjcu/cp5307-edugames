@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,22 +16,43 @@ import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.game.GameSettings;
 
 public class LandingActivity extends BaseActivity {
+    MediaPlayer bgMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
+
         Button playButton = findViewById(R.id.playButton);
         Button topScoresButton = findViewById(R.id.topScoreButton);
         Button settingsButton = findViewById(R.id.settingsButton);
+
         settings = new GameSettings();
+        loadSettings();
 
-        playButton.setOnClickListener(view -> startGameActivity());
+        if(settings.isAudioEnabled()){
+            bgMusic = MediaPlayer.create(this, R.raw.bgmusic);
+            bgMusic.setVolume(0.1f, 0.1f);
+            bgMusic.setLooping(true);
+            bgMusic.start();
+        }
 
-        topScoresButton.setOnClickListener(view -> startLeaderboardActivity());
 
-        settingsButton.setOnClickListener(view -> startSettingsActivity());
+        playButton.setOnClickListener(view -> {
+            playClickSound();
+            startGameActivity();
+        });
+
+        topScoresButton.setOnClickListener(view -> {
+            playClickSound();
+            startLeaderboardActivity();
+        });
+
+        settingsButton.setOnClickListener(view -> {
+            playClickSound();
+            startSettingsActivity();
+        });
     }
 
     @Override
@@ -43,6 +65,12 @@ public class LandingActivity extends BaseActivity {
                         settings.getDifficulty().toString()
                 )
         );
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(bgMusic != null) bgMusic.release();
+        super.onDestroy();
     }
 
     @Override

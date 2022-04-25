@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.adapters.ScoreListAdapter;
+import com.asbir.cp5307.edugames.game.GameSettings;
 import com.asbir.cp5307.edugames.models.Score;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class LeaderboardActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+
+        settings = new GameSettings();
+        loadSettings();
 
         ArrayList<Score> scores = getDBHelper().getLeaderboard(20);
 

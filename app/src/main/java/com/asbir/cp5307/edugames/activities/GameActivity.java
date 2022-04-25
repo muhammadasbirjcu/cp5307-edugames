@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,11 +32,16 @@ public class GameActivity extends BaseActivity implements StateListener {
     private GameBuilder gameBuilder;
     private Game game;
     private Timer timer;
+    private int winSound;
+    private int completedSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        winSound = soundPool.load(this, R.raw.correct, 1);
+        completedSound = soundPool.load(this, R.raw.startup, 1);
 
         // find fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -53,6 +59,11 @@ public class GameActivity extends BaseActivity implements StateListener {
         super.onStart();
         initiateTimer();
         onUpdate(State.START_GAME);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void initiateTimer(){
@@ -100,6 +111,9 @@ public class GameActivity extends BaseActivity implements StateListener {
                 }else{
                     statusFragment.setMessage(getResources().getString(R.string.game_completed));
                 }
+                if(settings.isAudioEnabled()) {
+                    soundPool.play(completedSound, 1, 1, 1, 0, 1);
+                }
                 int remainingTime = timer.getSecondsRemaining();
                 timer.reset();
                 questionFragment.hideAnswers();
@@ -113,6 +127,9 @@ public class GameActivity extends BaseActivity implements StateListener {
 
     @Override
     public void onCorrectAnswer() {
+        if(settings.isAudioEnabled()) {
+            soundPool.play(winSound, 1, 1, 1, 0, 1);
+        }
         game.incrementScore(1);
         statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
     }
