@@ -47,7 +47,7 @@ public class Timer {
 
     public void reset(){
         try{
-            handler.removeCallbacks(runnable);
+            if(handler != null)handler.removeCallbacks(runnable);
             isRunning = false;
         }catch (Exception ex){
             Log.e("Timer", "reset", ex);

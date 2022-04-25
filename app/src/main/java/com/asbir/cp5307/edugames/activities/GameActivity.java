@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 
 import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.database.DBHelper;
@@ -24,11 +25,13 @@ import com.asbir.cp5307.edugames.game.state.State;
 import com.asbir.cp5307.edugames.game.state.StateListener;
 import com.asbir.cp5307.edugames.models.Score;
 import com.asbir.cp5307.edugames.timer.Timer;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GameActivity extends BaseActivity implements StateListener {
 
     private StatusFragment statusFragment;
     private QuestionFragment questionFragment;
+    private FloatingActionButton restartButton;
     private GameBuilder gameBuilder;
     private Game game;
     private Timer timer;
@@ -43,6 +46,8 @@ public class GameActivity extends BaseActivity implements StateListener {
         winSound = soundPool.load(this, R.raw.correct, 1);
         completedSound = soundPool.load(this, R.raw.startup, 1);
 
+        restartButton = findViewById(R.id.restart_button);
+
         // find fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         statusFragment = (StatusFragment) fragmentManager.findFragmentById(R.id.fragment_status);
@@ -52,6 +57,13 @@ public class GameActivity extends BaseActivity implements StateListener {
 
         settings = new GameSettings();
         loadSettings();
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                restartGame();
+            }
+        });
     }
 
     @Override
@@ -67,7 +79,7 @@ public class GameActivity extends BaseActivity implements StateListener {
     }
 
     private void initiateTimer(){
-        timer = new Timer(20);
+        timer = new Timer(settings.getDuration());
         timer.setTickHandler(timer -> {
             if(timer.getIsRunning()){
                 // updates the countdown timer
@@ -80,20 +92,26 @@ public class GameActivity extends BaseActivity implements StateListener {
         });
     }
 
+    private void restartGame(){
+        restartButton.setVisibility(View.VISIBLE);
+        game = gameBuilder.create(settings.getDifficulty(), settings.getMaxQuestions());
+        game.setPlayer(settings.getPlayerName());
+
+        questionFragment.setQuestion(game.next());
+        questionFragment.show();
+
+        statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
+        statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
+        timer.reset();
+        timer.start();
+    }
+
     @Override
     public void onUpdate(State state) {
 
         switch (state) {
             case START_GAME:
-                game = gameBuilder.create(settings.getDifficulty(), settings.getMaxQuestions());
-                game.setPlayer(settings.getPlayerName());
-
-                questionFragment.setQuestion(game.next());
-                questionFragment.show();
-
-                statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
-                statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
-                timer.start();
+                restartGame();
                 break;
 
             case CONTINUE_GAME:
@@ -117,6 +135,7 @@ public class GameActivity extends BaseActivity implements StateListener {
                 int remainingTime = timer.getSecondsRemaining();
                 timer.reset();
                 questionFragment.hideAnswers();
+                restartButton.setVisibility(View.INVISIBLE);
 
                 //save to database
                 getDBHelper().insert(new Score(game, remainingTime));
