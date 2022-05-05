@@ -25,7 +25,7 @@ public class Question {
     }
 
     public boolean check(String chosenAnswer){
-        return answers.contains(chosenAnswer);
+        return chosenAnswer.equals(correctAnswer);
     }
 
     public Bitmap getIllustration(){
@@ -38,10 +38,6 @@ public class Question {
 
     public String getQuestion() {
         return question;
-    }
-
-    public String getCorrectAnswer() {
-        return correctAnswer;
     }
 
     public void setCorrectAnswer(String correctAnswer) {

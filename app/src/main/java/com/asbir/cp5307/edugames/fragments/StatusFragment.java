@@ -20,6 +20,7 @@ public class StatusFragment extends Fragment {
     private StateListener listener;
     private TextView message;
     private TextView score;
+    private TextView timer;
     private LinearProgressIndicator gameProgressIndicator;
 
     public StatusFragment() {
@@ -45,6 +46,7 @@ public class StatusFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
         message = view.findViewById(R.id.messageText);
         score = view.findViewById(R.id.scoreText);
+        timer = view.findViewById(R.id.timerText);
         gameProgressIndicator = view.findViewById(R.id.gameProgressIndicator);
         return view;
     }
@@ -57,8 +59,12 @@ public class StatusFragment extends Fragment {
         this.score.setText(scoreMessage);
     }
 
-    public void setTimePosition(int current, int max){
+    public void setPosition(int current, int max){
         gameProgressIndicator.setMax(max);
         gameProgressIndicator.setProgress(current);
+    }
+
+    public void setTimerText(String text){
+        timer.setText(text);
     }
 }

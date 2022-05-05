@@ -14,6 +14,7 @@
     <string name="time_is_up">Time is Up!</string>
     <string name="game_progression">Question %d out of %d</string>
     <string name="score_status">Score: %d/%d</string>
+    <string name="timer_default">00:00:00</string>
 
 
     <string name="name_label">Your Name</string>

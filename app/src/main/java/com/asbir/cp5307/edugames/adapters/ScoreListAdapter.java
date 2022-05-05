@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.models.Score;
+import com.asbir.cp5307.edugames.timer.Timer;
 
 import java.util.ArrayList;
 
@@ -29,9 +30,9 @@ public class ScoreListAdapter extends ArrayAdapter<Score> {
 
         Score score = getItem(position);
         String otherInfo = String.format(
-                "%s - %d secs remaining",
+                "%s - Completed in %s",
                 score.getDate(),
-                score.getTimeRemaining()
+                Timer.format(score.getTimeElapsed())
         );
         String scoreDetails = String.format(
                 "%d / %d",

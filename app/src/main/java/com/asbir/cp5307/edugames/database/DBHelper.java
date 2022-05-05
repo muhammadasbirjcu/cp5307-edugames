@@ -75,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(PLAYER_COL, score.getPlayer());
         values.put(DIFFICULTY_COL, score.getDifficulty().ordinal());
         values.put(SCORE_COL, score.getScore());
-        values.put(TIME_REMAINING_COL, score.getTimeRemaining());
+        values.put(TIME_REMAINING_COL, score.getTimeElapsed());
         values.put(NUM_QUESTIONS_COL, score.getNumQuestions());
         db.insert(TABLE_NAME, null, values);
         return true;

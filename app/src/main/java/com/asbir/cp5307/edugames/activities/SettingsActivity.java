@@ -24,8 +24,6 @@ import com.google.android.material.textfield.TextInputEditText;
 public class SettingsActivity extends BaseActivity {
     private TextInputEditText nameInput;
     private SwitchMaterial audioSwitch;
-    private TextView gameDurationText;
-    private Slider durationSlider;
     private Spinner difficultySpinner;
     private Button doneButton;
     private TextInputEditText maxQuestionsInput;
@@ -41,8 +39,6 @@ public class SettingsActivity extends BaseActivity {
 
         nameInput = findViewById(R.id.name_input);
         audioSwitch = findViewById(R.id.audio_switch);
-        gameDurationText = findViewById(R.id.gameDurationText);
-        durationSlider = findViewById(R.id.duration_slider);
         doneButton = findViewById(R.id.done_button);
         difficultySpinner = findViewById(R.id.difficulty_spinner);
         maxQuestionsInput = findViewById(R.id.max_questions_input);
@@ -56,15 +52,6 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startLandingActivity();
-            }
-        });
-
-        // reflect changes in slider and show it in the textview/label
-        durationSlider.addOnChangeListener(new Slider.OnChangeListener() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                gameDurationText.setText(String.format(durationFormat, value));
             }
         });
 
@@ -104,8 +91,6 @@ public class SettingsActivity extends BaseActivity {
         // set initial values
         nameInput.setText(settings.getPlayerName());
         audioSwitch.setChecked(settings.isAudioEnabled());
-        durationSlider.setValue(settings.getDuration());
-        gameDurationText.setText(String.format(durationFormat, durationSlider.getValue()));
         difficultySpinner.setSelection(settings.getDifficulty().ordinal());
         maxQuestionsInput.setText(String.valueOf(settings.getMaxQuestions()));
     }
@@ -114,7 +99,6 @@ public class SettingsActivity extends BaseActivity {
         // set initial values
         settings.setPlayerName(nameInput.getText().toString().trim());
         settings.setAudioEnabled(audioSwitch.isChecked());
-        settings.setDuration(Math.round(durationSlider.getValue()));
         settings.setDifficulty(Difficulty.values()[difficultySpinner.getSelectedItemPosition()]);
         settings.setMaxQuestions(Integer.valueOf(maxQuestionsInput.getText().toString()));
     }

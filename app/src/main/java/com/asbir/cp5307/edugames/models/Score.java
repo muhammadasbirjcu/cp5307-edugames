@@ -9,16 +9,16 @@ public class Score {
     private Difficulty difficulty;
     private String date;
     private int score;
-    private int timeRemaining;
+    private int timeElapsed;
     private int numQuestions;
 
 
-    public Score(String player, Difficulty difficulty, String date, int score, int timeRemaining, int numQuestions) {
+    public Score(String player, Difficulty difficulty, String date, int score, int timeElapsed, int numQuestions) {
         this.player = player;
         this.difficulty = difficulty;
         this.date = date;
         this.score = score;
-        this.timeRemaining = timeRemaining;
+        this.timeElapsed = timeElapsed;
         this.numQuestions = numQuestions;
     }
 
@@ -26,7 +26,7 @@ public class Score {
         this.player = game.getPlayer();
         this.difficulty = game.getDifficulty();
         this.score = game.getScore();
-        this.timeRemaining = timeRemaining;
+        this.timeElapsed = timeElapsed;
         this.numQuestions = game.count();
     }
 
@@ -70,12 +70,12 @@ public class Score {
         this.score = score;
     }
 
-    public int getTimeRemaining() {
-        return timeRemaining;
+    public int getTimeElapsed() {
+        return timeElapsed;
     }
 
-    public void setTimeRemaining(int timeRemaining) {
-        this.timeRemaining = timeRemaining;
+    public void setTimeElapsed(int timeElapsed) {
+        this.timeElapsed = timeElapsed;
     }
 
     public int getNumQuestions() {

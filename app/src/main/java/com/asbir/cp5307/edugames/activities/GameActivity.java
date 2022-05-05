@@ -59,12 +59,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
         // restart game fab
         restartButton = findViewById(R.id.restart_button);
-        restartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                restartGame();
-            }
-        });
+        restartButton.setOnClickListener(view -> restartGame());
 
         // set-up timer
         initiateTimer();
@@ -92,12 +87,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
     private void initSensors(){
         shakeDetector = new ShakeDetector();
-        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
-            @Override
-            public void onShake(int count) {
-                restartGame();
-            }
-        });
+        shakeDetector.setOnShakeListener(count -> restartGame());
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
@@ -106,22 +96,17 @@ public class GameActivity extends BaseActivity implements StateListener {
     }
 
     private void initiateTimer(){
-        timer = new Timer(settings.getDuration());
+        timer = new Timer();
         timer.setTickHandler(timer -> {
             if(timer.getIsRunning()){
-                // updates the countdown timer
-                statusFragment.setTimePosition(timer.getSecondsRemaining(), timer.getDuration());
-            }
-            if(timer.timeHasElapsed()){
-                // stop the game when time has elapsed
-                GameActivity.this.onUpdate(State.GAME_OVER);
+                statusFragment.setTimerText(timer.toString());
             }
         });
     }
 
     private void restartGame(){
         restartButton.setVisibility(View.VISIBLE);
-        game = gameBuilder.create(settings.getDifficulty(), 2); //settings.getMaxQuestions());
+        game = gameBuilder.create(settings.getDifficulty(), settings.getMaxQuestions());
         game.setPlayer(settings.getPlayerName());
 
         questionFragment.setQuestion(game.next());
@@ -129,8 +114,10 @@ public class GameActivity extends BaseActivity implements StateListener {
 
         statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
         statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
+        statusFragment.setPosition(0, game.count());
         timer.reset();
         timer.start();
+        statusFragment.setTimerText(timer.toString());
     }
 
     @Override
@@ -143,6 +130,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
             case CONTINUE_GAME:
                 statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
+                statusFragment.setPosition(game.getPointer()+1, game.count());
                 if(game.isGameOver()){
                     this.onUpdate(State.GAME_OVER);
                 }else{
@@ -151,21 +139,17 @@ public class GameActivity extends BaseActivity implements StateListener {
                 break;
 
             case GAME_OVER:
-                if(timer.timeHasElapsed()){
-                    statusFragment.setMessage(getResources().getString(R.string.time_is_up));
-                }else{
-                    statusFragment.setMessage(getResources().getString(R.string.game_completed));
-                }
+                statusFragment.setMessage(getResources().getString(R.string.game_completed));
+
                 if(settings.isAudioEnabled()) {
                     SoundEffect.instance().play(this, R.raw.startup, 0);
                 }
-                int remainingTime = timer.getSecondsRemaining();
                 timer.reset();
                 questionFragment.hideAnswers();
                 restartButton.setVisibility(View.INVISIBLE);
 
                 //save to database
-                getDBHelper().insert(new Score(game, remainingTime));
+                getDBHelper().insert(new Score(game, timer.getDuration()));
 
                 break;
         }

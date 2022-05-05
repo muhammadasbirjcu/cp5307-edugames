@@ -1,6 +1,5 @@
 package com.asbir.cp5307.edugames.game;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -15,17 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameXMLParser {
-    private static final String ns = null;
-    private Difficulty difficulty;
-    private AssetManager assetManager;
+    private final Difficulty difficulty;
+    private final AssetManager assetManager;
 
     public GameXMLParser(Difficulty difficulty, AssetManager assetManager){
         this.difficulty = difficulty;
         this.assetManager = assetManager;
     }
 
-    public InputStream assetStream() throws XmlPullParserException, IOException{
-        return this.assetManager.open(String.valueOf(difficulty) + ".xml");
+    public InputStream assetStream() throws IOException{
+        return this.assetManager.open(difficulty + ".xml");
     }
 
     public List<Question> read() throws XmlPullParserException, IOException{
@@ -33,7 +31,7 @@ public class GameXMLParser {
     }
 
     public List<Question> parse(InputStream in) throws XmlPullParserException, IOException {
-        List<Question> questions = new ArrayList<>();
+        List<Question> questions;
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -51,7 +49,7 @@ public class GameXMLParser {
         List<Question> questions = new ArrayList<>();
         Question pendingQuestion = new Question("");
         String lastTag = "";
-        String lastText = "";
+        String lastText;
         while (eventType != XmlPullParser.END_DOCUMENT) {
 
             if(parser.getEventType() == XmlPullParser.START_TAG){
@@ -63,7 +61,7 @@ public class GameXMLParser {
                 Log.i("xml", lastTag + " : " + lastText);
 
                 if(lastText.isEmpty()){
-
+                    Log.i("xml", "Empty text. Skip");
                 }else if(lastTag.equals("question")){
                     if(!pendingQuestion.getQuestion().isEmpty()){
                         questions.add(pendingQuestion);

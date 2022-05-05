@@ -9,16 +9,14 @@ import java.util.Locale;
 
 public class Timer {
     private int duration;
-    private int secondsRemaining;
     private Handler handler;
     private Runnable runnable;
     private Boolean isRunning;
 
     private Tickable tickHandler;
 
-    public Timer(int duration){
+    public Timer(){
         this.duration = duration;
-        this.secondsRemaining = duration;
         this.isRunning = false;
     }
 
@@ -51,7 +49,7 @@ public class Timer {
         }catch (Exception ex){
             Log.e("Timer", "reset", ex);
         }
-        this.secondsRemaining = this.duration;
+        this.duration = 0;
     }
 
     public void release(){
@@ -60,32 +58,28 @@ public class Timer {
     }
 
     void tick(){
-        secondsRemaining--;
-    }
-
-    public int getSecondsRemaining() {
-        return secondsRemaining;
+        duration++;
     }
 
     public int getDuration() {
         return duration;
     }
 
-    public boolean timeHasElapsed(){
-        return this.secondsRemaining <= 0;
-    }
-
     @NonNull
     @Override
     public String toString(){
-        return String.format(Locale.getDefault(), "Time remaining: %02d", secondsRemaining);
-//        int hours = secondsRemaining / 3600;
-//        int minutes = (secondsRemaining % 3600) / 60;
-//        int seconds = (secondsRemaining % 3600) % 60;
-//        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return format(this.duration);
     }
 
     public boolean getIsRunning(){
         return isRunning;
+    }
+
+    public static String format(int duration){
+//        return String.format(Locale.getDefault(), "Time remaining: %02d", seconds);
+        int hours = duration / 3600;
+        int minutes = (duration % 3600) / 60;
+        int seconds = (duration % 3600) % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
