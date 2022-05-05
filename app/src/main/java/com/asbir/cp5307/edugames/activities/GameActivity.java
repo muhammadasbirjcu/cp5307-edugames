@@ -2,8 +2,6 @@ package com.asbir.cp5307.edugames.activities;
 
 import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
@@ -13,10 +11,10 @@ import androidx.fragment.app.FragmentManager;
 import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.fragments.QuestionFragment;
 import com.asbir.cp5307.edugames.fragments.StatusFragment;
+import com.asbir.cp5307.edugames.game.SoundEffect;
 import com.asbir.cp5307.edugames.game.Game;
 import com.asbir.cp5307.edugames.game.GameBuilder;
 import com.asbir.cp5307.edugames.game.GameSettings;
-import com.asbir.cp5307.edugames.game.QuestionImageManager;
 import com.asbir.cp5307.edugames.game.state.State;
 import com.asbir.cp5307.edugames.game.state.StateListener;
 import com.asbir.cp5307.edugames.models.Score;
@@ -32,8 +30,6 @@ public class GameActivity extends BaseActivity implements StateListener {
     private GameBuilder gameBuilder;
     private Game game;
     private Timer timer;
-    private int winSound;
-    private int completedSound;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -44,17 +40,15 @@ public class GameActivity extends BaseActivity implements StateListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        winSound = soundPool.load(this, R.raw.correct, 1);
-        completedSound = soundPool.load(this, R.raw.startup, 1);
 
-        restartButton = findViewById(R.id.restart_button);
 
         // find fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         statusFragment = (StatusFragment) fragmentManager.findFragmentById(R.id.fragment_status);
         questionFragment = (QuestionFragment) fragmentManager.findFragmentById(R.id.fragment_question);
 
-        gameBuilder = new GameBuilder(new QuestionImageManager(getAssets(), "celebs"));
+        // create game builder
+        gameBuilder = new GameBuilder(getAssets());
 
         // load settings
         settings = new GameSettings();
@@ -63,21 +57,25 @@ public class GameActivity extends BaseActivity implements StateListener {
         // set-up shake detector
         initSensors();
 
-        // fab click
+        // restart game fab
+        restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 restartGame();
             }
         });
+
+        // set-up timer
+        initiateTimer();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initiateTimer();
-        sensorManager.registerListener(shakeDetector, sensor, SensorManager.SENSOR_DELAY_UI);
+        // start game
         onUpdate(State.START_GAME);
+        sensorManager.registerListener(shakeDetector, sensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -88,6 +86,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
     @Override
     protected void onDestroy() {
+        timer.release();
         super.onDestroy();
     }
 
@@ -122,7 +121,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
     private void restartGame(){
         restartButton.setVisibility(View.VISIBLE);
-        game = gameBuilder.create(settings.getDifficulty(), settings.getMaxQuestions());
+        game = gameBuilder.create(settings.getDifficulty(), 2); //settings.getMaxQuestions());
         game.setPlayer(settings.getPlayerName());
 
         questionFragment.setQuestion(game.next());
@@ -158,7 +157,7 @@ public class GameActivity extends BaseActivity implements StateListener {
                     statusFragment.setMessage(getResources().getString(R.string.game_completed));
                 }
                 if(settings.isAudioEnabled()) {
-                    soundPool.play(completedSound, 1, 1, 1, 0, 1);
+                    SoundEffect.instance().play(this, R.raw.startup, 0);
                 }
                 int remainingTime = timer.getSecondsRemaining();
                 timer.reset();
@@ -175,7 +174,7 @@ public class GameActivity extends BaseActivity implements StateListener {
     @Override
     public void onCorrectAnswer() {
         if(settings.isAudioEnabled()) {
-            soundPool.play(winSound, 1, 1, 1, 0, 1);
+            SoundEffect.instance().play(this, R.raw.correct, 0);
         }
         game.incrementScore(1);
         statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));

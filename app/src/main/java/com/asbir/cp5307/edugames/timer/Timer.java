@@ -47,12 +47,16 @@ public class Timer {
 
     public void reset(){
         try{
-            if(handler != null)handler.removeCallbacks(runnable);
-            isRunning = false;
+            release();
         }catch (Exception ex){
             Log.e("Timer", "reset", ex);
         }
         this.secondsRemaining = this.duration;
+    }
+
+    public void release(){
+        if(handler != null)handler.removeCallbacks(runnable);
+        isRunning = false;
     }
 
     void tick(){

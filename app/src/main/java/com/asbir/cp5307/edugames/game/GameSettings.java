@@ -12,9 +12,10 @@ public class GameSettings {
 
     public static final String PREFERENCE_KEY = "edugames";
 
-
     protected SharedPreferences sharedPref;
     protected SharedPreferences.Editor editor;
+
+    private GameSettings mInstance;
 
     public GameSettings(){
         audioEnabled = true;
@@ -80,4 +81,6 @@ public class GameSettings {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+
 }

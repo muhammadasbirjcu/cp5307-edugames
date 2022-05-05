@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.asbir.cp5307.edugames.R;
+import com.asbir.cp5307.edugames.game.BackgroundMusic;
 import com.asbir.cp5307.edugames.game.Difficulty;
 import com.asbir.cp5307.edugames.game.GameSettings;
 import com.google.android.material.slider.Slider;
@@ -63,6 +65,19 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 gameDurationText.setText(String.format(durationFormat, value));
+            }
+        });
+
+        audioSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    if(!BackgroundMusic.instance(SettingsActivity.this).isPlaying()){
+                        BackgroundMusic.instance(SettingsActivity.this).start();
+                    }
+                }else{
+                    BackgroundMusic.instance(SettingsActivity.this).stop();
+                }
             }
         });
 

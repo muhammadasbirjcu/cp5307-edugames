@@ -1,24 +1,19 @@
 package com.asbir.cp5307.edugames.game;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.media.Image;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameBuilder {
-    private QuestionImageManager manager;
-
-    public GameBuilder(QuestionImageManager manager){
-        this.manager = manager;
-    }
-
-
-    /**
-     * Create a new game with maximum number of questions
-     * @param difficulty
-     * @return
-     */
-    public Game create(Difficulty difficulty){
-        return create(difficulty, manager.count());
+    AssetManager assetManager;
+    public GameBuilder(AssetManager assetManager){
+        this.assetManager = assetManager;
     }
 
     /**
@@ -27,43 +22,24 @@ public class GameBuilder {
      * @return
      */
     public Game create(Difficulty difficulty, int numberOfQuestions){
-        int possibleAnswers = possibleAnswers(difficulty);
+        GameXMLParser parser = new GameXMLParser(difficulty, assetManager);
+        List<Question> questions = new ArrayList<Question>();
+        try{
+            List<Question> clonedQuestions = parser.read();
+            Collections.shuffle(clonedQuestions);
 
-        Question[] questions = new Question[numberOfQuestions];
-        for (int i = 0; i < numberOfQuestions; ++i){
-            try{
-                questions[i] =
-                        new Question(
-                                manager.getName(i),
-                                manager.get(i),
-                                manager.shuffleNames(i, possibleAnswers)
-                        );
-            }catch (IOException ex){
-                int a = 0;
-            }
+            // truncate list to first limit-1
+            questions = clonedQuestions
+                    .stream()
+                    .limit(numberOfQuestions)
+                    .collect(Collectors.toList());
+
+        }catch (Exception e){
 
         }
-        return new Game(difficulty, questions);
-    }
 
-    /**
-     * Get number of possible answers based on difficulty
-     * @param difficulty
-     * @return
-     */
-    private static int possibleAnswers(Difficulty difficulty) {
-
-        switch (difficulty){
-            case MEDIUM:
-                return 4;
-            case HARD:
-                return 6;
-            case EXPERT:
-                return 8;
-            case EASY:
-            default:
-                return 2;
-        }
+        return new Game(difficulty, questions.toArray(new Question[]{}));
 
     }
+
 }

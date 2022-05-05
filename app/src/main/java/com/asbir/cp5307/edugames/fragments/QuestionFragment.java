@@ -37,7 +37,7 @@ public class QuestionFragment extends Fragment {
         questionImage = (ImageView) view.findViewById(R.id.questionImage);
 
         answersGrid.setOnItemClickListener((adapterView, view1, i, l) -> {
-            String answer = question.getPossibleNames()[i];
+            String answer = question.getAnswers()[i];
             if(question.check(answer)){
                 listener.onCorrectAnswer();
             }
@@ -68,11 +68,11 @@ public class QuestionFragment extends Fragment {
 
     public void applyChangesToUI(){
         // set answers
-        ArrayAdapter<String> answersAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, question.getPossibleNames());
+        ArrayAdapter<String> answersAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, question.getAnswers());
         answersGrid.setAdapter(answersAdapter);
 
         // set image
-        questionImage.setImageBitmap(question.getCelebrityImage());
+        questionImage.setImageBitmap(question.getIllustration());
     }
 
     public void show(){

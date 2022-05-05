@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,15 +15,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.asbir.cp5307.edugames.R;
+import com.asbir.cp5307.edugames.game.BackgroundMusic;
+import com.asbir.cp5307.edugames.game.Difficulty;
 import com.asbir.cp5307.edugames.game.GameSettings;
+import com.asbir.cp5307.edugames.game.GameXMLParser;
+
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.InputStream;
+import java.util.List;
 
 public class LandingActivity extends BaseActivity {
-    MediaPlayer bgMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+
 
 
         Button playButton = findViewById(R.id.playButton);
@@ -31,12 +41,6 @@ public class LandingActivity extends BaseActivity {
         settings = new GameSettings();
         loadSettings();
 
-        if(settings.isAudioEnabled()){
-            bgMusic = MediaPlayer.create(this, R.raw.bgmusic);
-            bgMusic.setVolume(0.1f, 0.1f);
-            bgMusic.setLooping(true);
-            bgMusic.start();
-        }
 
 
         playButton.setOnClickListener(view -> {
@@ -69,7 +73,6 @@ public class LandingActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if(bgMusic != null) bgMusic.release();
         super.onDestroy();
     }
 
