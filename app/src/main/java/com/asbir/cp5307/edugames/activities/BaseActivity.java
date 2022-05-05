@@ -3,6 +3,7 @@ package com.asbir.cp5307.edugames.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -12,6 +13,11 @@ import com.asbir.cp5307.edugames.game.BackgroundMusic;
 import com.asbir.cp5307.edugames.game.SoundEffect;
 import com.asbir.cp5307.edugames.game.GameSettings;
 import com.asbir.cp5307.edugames.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
 
 public class BaseActivity  extends AppCompatActivity {
     protected GameSettings settings;
@@ -76,5 +82,36 @@ public class BaseActivity  extends AppCompatActivity {
         if(settings != null && settings.isAudioEnabled() && !BackgroundMusic.instance(this).isPlaying()){
             BackgroundMusic.instance(this).start();
         }
+    }
+
+    public void tweet(String message){
+        Twitter twitter = TwitterFactory.getSingleton();
+        String tweet = String.format(message);
+        try{
+            Status status = twitter.updateStatus(tweet);
+        }catch (IllegalStateException ex){
+            (new MaterialAlertDialogBuilder(this))
+                    .setTitle("Tweet")
+                    .setMessage(getString(R.string.twitter_error_auth))
+                    .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }catch (Exception ex){
+            (new MaterialAlertDialogBuilder(this))
+                    .setTitle("Tweet")
+                    .setMessage(getString(R.string.twitter_error))
+                    .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+
     }
 }

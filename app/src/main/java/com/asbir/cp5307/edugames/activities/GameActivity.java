@@ -1,9 +1,11 @@
 package com.asbir.cp5307.edugames.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +22,13 @@ import com.asbir.cp5307.edugames.game.state.StateListener;
 import com.asbir.cp5307.edugames.models.Score;
 import com.asbir.cp5307.edugames.sensors.ShakeDetector;
 import com.asbir.cp5307.edugames.timer.Timer;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
 public class GameActivity extends BaseActivity implements StateListener {
 
@@ -150,6 +158,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
                 //save to database
                 getDBHelper().insert(new Score(game, timer.getDuration()));
+
 
                 break;
         }

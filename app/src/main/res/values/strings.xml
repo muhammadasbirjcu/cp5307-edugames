@@ -9,6 +9,7 @@
     <string name="top_scores">Top Scores</string>
     <string name="settings">Settings</string>
     <string name="difficulty_information">Difficulty: %s</string>
+    <string name="dialog_ok">Ok</string>
 
     <string name="game_completed">All Questions Completed</string>
     <string name="time_is_up">Time is Up!</string>
@@ -25,4 +26,8 @@
     <string name="game_duration">Game Duration: %.0f secs</string>
     <string name="difficulty">Difficulty</string>
     <string name="done">Done</string>
+
+    <string name="twitter_score">I scored %d out of %d in Asbir Edu App! Try out yourself by downloading the app.</string>
+    <string name="twitter_error_auth">Unable to post tweet because the App Key cannot be found</string>
+    <string name="twitter_error">Unable to post tweet due to some error</string>
 </resources>
