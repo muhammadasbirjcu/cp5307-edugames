@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <row>
+        <question>This tradition of carrying heavy portable shrines, or mikoshi takes place in what country?</question>
+        <answers>China</answers>
+        <answers>Japan</answers>
+        <answers>South Korea</answers>
+        <answers>Taiwan</answers>
+        <answer>Japan</answer>
+        <image>1.jpg</image>
+    </row>
+    <row>
+        <question>This former trading city built by the Nabataeans, a Semitic tribe who recognized its strategic location along early trade routes, can be found in a desert canyon in what country?</question>
+        <answers>Japan</answers>
+        <answers>Libya</answers>
+        <answers>Qatar</answers>
+        <answers>UAE</answers>
+        <answer>Jordan</answer>
+        <image>2.png</image>
+    </row>
+</root>
