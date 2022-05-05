@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
+public class GameUnitTest {
     @Test
     public void checkCorrectAnswer(){
         Question question = createTestQuestion();
