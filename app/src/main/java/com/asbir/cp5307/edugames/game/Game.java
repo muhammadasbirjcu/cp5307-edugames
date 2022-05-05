@@ -1,5 +1,10 @@
 package com.asbir.cp5307.edugames.game;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class Game {
     private Question[] questions;
     private int pointer;

@@ -38,6 +38,10 @@ public class GameBuilder {
 
         }
 
+        for(int i = 0; i < questions.size(); i++){
+            questions.get(i).shuffleAnswers();
+        }
+
         return new Game(difficulty, questions.toArray(new Question[]{}));
 
     }

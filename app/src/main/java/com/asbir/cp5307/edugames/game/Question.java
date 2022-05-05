@@ -3,6 +3,9 @@ package com.asbir.cp5307.edugames.game;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Question {
     private String question;
@@ -50,5 +53,9 @@ public class Question {
 
     public void addAnswer(String answer) {
         this.answers.add(answer);
+    }
+
+    public void shuffleAnswers() {
+        Collections.shuffle(answers);
     }
 }
