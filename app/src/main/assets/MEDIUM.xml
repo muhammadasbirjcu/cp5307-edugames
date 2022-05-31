@@ -18,4 +18,130 @@
         <answer>Jordan</answer>
         <image>2.png</image>
     </row>
+
+
+
+
+    <row>
+        <question>This picture reminds you of which famous movie series?</question>
+        <answers>Harry Potter</answers>
+        <answers>The Lord of the Rings</answers>
+        <answers>Indiana Jones</answers>
+        <answer>Harry Potter</answer>
+        <image>15.webp</image>
+    </row>
+    <row>
+        <question>What is the name of this pastry, which is typically made of a layered yeast-leavened dough with butter?</question>
+        <answers>Macarons</answers>
+        <answers>Croissants</answers>
+        <answers>Danishes</answers>
+        <answer>Croissants</answer>
+        <image>16.webp</image>
+    </row>
+
+
+
+    <row>
+        <question>What is the name of this traditional garment, which is the national dress of Japan?</question>
+        <answers>Ao dai</answers>
+        <answers>Hanbok</answers>
+        <answers>Kimono</answers>
+        <answer>Kimono</answer>
+        <image>12.webp</image>
+    </row>
+    <row>
+        <question>What is the name of this legendary actor, musician, and singer?</question>
+        <answers>Elvis Presley</answers>
+        <answers>Elton John</answers>
+        <answers>Eric Clapton</answers>
+        <answer>Elvis Presley</answer>
+        <image>13.webp</image>
+    </row>
+    <row>
+        <question>In which year did the British passenger liner Titanic sink in the North Atlantic Ocean, which made more than 1,500 people die?</question>
+        <answers>1901</answers>
+        <answers>1912</answers>
+        <answers>1923</answers>
+        <answer>1912</answer>
+        <image>14.webp</image>
+    </row>
+
+
+    <row>
+        <question>This is the flag of which Scandinavian country?</question>
+        <answers>Sweden</answers>
+        <answers>Norway</answers>
+        <answers>Denmark</answers>
+        <answer>Sweden</answer>
+        <image>3.webp</image>
+    </row>
+    <row>
+        <question>This picture was taken during which historical period?</question>
+        <answers>The World War I</answers>
+        <answers>The Great Depression</answers>
+        <answers>The World War II</answers>
+        <answer>The Great Depression</answer>
+        <image>4.webp</image>
+    </row>
+
+    <row>
+        <question>What is the name of this world-known tourist destination in Italy??</question>
+        <answers>Ponte Vecchio</answers>
+        <answers>Leaning Tower of Pisa</answers>
+        <answers>Milan Cathedral</answers>
+        <answer>Leaning Tower of Pisa</answer>
+        <image>5.webp</image>
+    </row>
+
+    <row>
+        <question>What is the name of this sport?</question>
+        <answers>Cricket</answers>
+        <answers>Corkball</answers>
+        <answers>Kickball</answers>
+        <answer>Cricket</answer>
+        <image>6.webp</image>
+    </row>
+
+    <row>
+        <question>From which country did this musical instrument originally come from?</question>
+        <answers>Spain</answers>
+        <answers>Germany</answers>
+        <answers>France</answers>
+        <answer>Spain</answer>
+        <image>7.webp</image>
+    </row>
+
+    <row>
+        <question>What is the meaning of this symbol, which was designed in the 1950s?</question>
+        <answers>Christianity</answers>
+        <answers>Peace</answers>
+        <answers>Communism</answers>
+        <answer>Peace</answer>
+        <image>8.webp</image>
+    </row>
+
+    <row>
+        <question>This statue is the award for which prestigious and famous event?</question>
+        <answers>The Grammy Award</answers>
+        <answers>The Pulitzer Prize</answers>
+        <answers>The Academy Awards, also known as the Oscars</answers>
+        <answer>The Academy Awards, also known as the Oscars</answer>
+        <image>9.webp</image>
+    </row>
+    <row>
+        <question>In which city is this distinctive and famous building located?</question>
+        <answers>Sydney, Australia</answers>
+        <answers>Auckland, New Zealand</answers>
+        <answers>Bali, Indonesia</answers>
+        <answer>Sydney, Australia</answer>
+        <image>10.webp</image>
+    </row>
+    <row>
+        <question>What is the name of this gemstone?</question>
+        <answers>Ruby</answers>
+        <answers>Sapphire</answers>
+        <answers>Emerald</answers>
+        <answer>Sapphire</answer>
+        <image>11.webp</image>
+    </row>
 </root>

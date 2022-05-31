@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String NUM_QUESTIONS_COL = "num_questions";
     public static final String TIME_REMAINING_COL = "timeRemaining";
 
-    public DBHelper(Context context){
+    private DBHelper(Context context){
         super(context,DATABASE_NAME, null, DATABASE_VERSION );
     }
 

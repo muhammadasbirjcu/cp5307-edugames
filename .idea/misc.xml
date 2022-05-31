@@ -3,14 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2585" />
+        <entry key="app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.2585" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2585" />
         <entry key="app/src/main/res/layout-large/activity_main.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/activity_game.xml" value="0.223731884057971" />
         <entry key="app/src/main/res/layout/activity_landing.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_leaderboard.xml" value="0.2604166666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24003623188405798" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.2604166666666667" />
+        <entry key="app/src/main/res/layout/fragment_completed.xml" value="0.253125" />
         <entry key="app/src/main/res/layout/fragment_question.xml" value="0.20833333333333334" />
-        <entry key="app/src/main/res/layout/fragment_status.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_status.xml" value="0.29213483146067415" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.2604166666666667" />
         <entry key="app/src/main/res/layout/score_list_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.2604166666666667" />

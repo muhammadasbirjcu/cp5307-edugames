@@ -71,6 +71,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
         // set-up timer
         initiateTimer();
+
     }
 
     @Override
@@ -119,6 +120,7 @@ public class GameActivity extends BaseActivity implements StateListener {
 
         questionFragment.setQuestion(game.next());
         questionFragment.show();
+        questionFragment.hideCompletedButtons();
 
         statusFragment.setScoreMessage(game.getFormattedScore(getString(R.string.score_status)));
         statusFragment.setMessage(game.getFormattedGameProgression(getString(R.string.game_progression)));
@@ -126,6 +128,21 @@ public class GameActivity extends BaseActivity implements StateListener {
         timer.reset();
         timer.start();
         statusFragment.setTimerText(timer.toString());
+
+
+        questionFragment.setOnResetClicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                restartGame();
+            }
+        });
+        questionFragment.setOnShareClicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = String.format(getString(R.string.twitter_score), game.getScore(), game.count());
+                GameActivity.this.share(text);
+            }
+        });
     }
 
     @Override
@@ -153,12 +170,12 @@ public class GameActivity extends BaseActivity implements StateListener {
                     SoundEffect.instance().play(this, R.raw.startup, 0);
                 }
                 timer.reset();
-                questionFragment.hideAnswers();
+                questionFragment.hide();
+                questionFragment.showCompletedButtons();
                 restartButton.setVisibility(View.INVISIBLE);
 
                 //save to database
                 getDBHelper().insert(new Score(game, timer.getDuration()));
-
 
                 break;
         }

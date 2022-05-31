@@ -6,11 +6,24 @@
     android:orientation="vertical"
     tools:context=".fragments.QuestionFragment">
 
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/questionImage"
         android:layout_gravity="center" />
+
+    <TextView
+        android:padding="12dp"
+        android:gravity="center"
+        android:id="@+id/question_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:text="This is a sample question"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"></TextView>
+
     <GridView
         android:id="@+id/answersGrid"
         android:layout_width="wrap_content"
@@ -21,4 +34,23 @@
         android:verticalSpacing="5dp"
         />
 
+
+
+    <Button
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/share_button"
+        android:layout_gravity="center"
+        android:layout_marginBottom="12dp"
+        android:text="Share Score"/>
+
+
+    <Button
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/restart_button"
+        android:layout_gravity="center"
+        android:text="Play Again"/>
 </LinearLayout>

@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.asbir.cp5307.edugames.R;
 import com.asbir.cp5307.edugames.game.Question;
@@ -22,7 +24,11 @@ public class QuestionFragment extends Fragment {
     private StateListener listener;
     private Question question;
     private GridView answersGrid;
+    private TextView questionText;
     private ImageView questionImage;
+    private Button restartGameButton;
+    private Button shareButton;
+
 
     public QuestionFragment() {
         // Required empty public constructor
@@ -35,6 +41,10 @@ public class QuestionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_question, container, false);
         answersGrid = (GridView) view.findViewById(R.id.answersGrid);
         questionImage = (ImageView) view.findViewById(R.id.questionImage);
+        questionText = (TextView) view.findViewById(R.id.question_text);
+
+        restartGameButton = (Button) view.findViewById(R.id.restart_button);
+        shareButton = (Button) view.findViewById(R.id.share_button);
 
         answersGrid.setOnItemClickListener((adapterView, view1, i, l) -> {
             String answer = question.getAnswers()[i];
@@ -43,6 +53,7 @@ public class QuestionFragment extends Fragment {
             }
             listener.onUpdate(State.CONTINUE_GAME);
         });
+
 
         return view;
     }
@@ -70,6 +81,7 @@ public class QuestionFragment extends Fragment {
         // set answers
         ArrayAdapter<String> answersAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, question.getAnswers());
         answersGrid.setAdapter(answersAdapter);
+        questionText.setText(question.getQuestion());
 
         // set image
         questionImage.setImageBitmap(question.getIllustration());
@@ -78,9 +90,30 @@ public class QuestionFragment extends Fragment {
     public void show(){
         questionImage.setVisibility(View.VISIBLE);
         answersGrid.setVisibility(View.VISIBLE);
+        questionText.setVisibility(View.VISIBLE);
     }
 
-    public void hideAnswers(){
-        answersGrid.setVisibility(View.INVISIBLE);
+    public void hide(){
+        questionImage.setVisibility(View.INVISIBLE);
+        answersGrid.setVisibility(View.INVISIBLE);;
+        questionText.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void showCompletedButtons(){
+        shareButton.setVisibility(View.VISIBLE);
+        restartGameButton.setVisibility(View.VISIBLE);
+    }
+    public void hideCompletedButtons(){
+        shareButton.setVisibility(View.INVISIBLE);
+        restartGameButton.setVisibility(View.INVISIBLE);
+    }
+
+    public void setOnShareClicked(View.OnClickListener onShareClicked) {
+        shareButton.setOnClickListener(onShareClicked);
+    }
+
+    public void setOnResetClicked(View.OnClickListener onResetClicked) {
+        restartGameButton.setOnClickListener(onResetClicked);
     }
 }

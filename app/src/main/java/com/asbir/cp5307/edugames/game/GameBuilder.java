@@ -23,16 +23,19 @@ public class GameBuilder {
      */
     public Game create(Difficulty difficulty, int numberOfQuestions){
         GameXMLParser parser = new GameXMLParser(difficulty, assetManager);
-        List<Question> questions = new ArrayList<Question>();
+        List<Question> questions = new ArrayList<>();
         try{
             List<Question> clonedQuestions = parser.read();
             Collections.shuffle(clonedQuestions);
 
             // truncate list to first limit-1
-            questions = clonedQuestions
-                    .stream()
-                    .limit(numberOfQuestions)
-                    .collect(Collectors.toList());
+            List<Question> list = new ArrayList<>();
+            long limit = numberOfQuestions;
+            for (Question clonedQuestion : clonedQuestions) {
+                if (limit-- == 0) break;
+                list.add(clonedQuestion);
+            }
+            questions = list;
 
         }catch (Exception e){
 

@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -84,34 +85,13 @@ public class BaseActivity  extends AppCompatActivity {
         }
     }
 
-    public void tweet(String message){
-        Twitter twitter = TwitterFactory.getSingleton();
-        String tweet = String.format(message);
-        try{
-            Status status = twitter.updateStatus(tweet);
-        }catch (IllegalStateException ex){
-            (new MaterialAlertDialogBuilder(this))
-                    .setTitle("Tweet")
-                    .setMessage(getString(R.string.twitter_error_auth))
-                    .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .show();
-        }catch (Exception ex){
-            (new MaterialAlertDialogBuilder(this))
-                    .setTitle("Tweet")
-                    .setMessage(getString(R.string.twitter_error))
-                    .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .show();
-        }
 
+
+    public void share(String message){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Asbir Edu App");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }

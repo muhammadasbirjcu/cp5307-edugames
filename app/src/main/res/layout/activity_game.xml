@@ -28,6 +28,13 @@
             android:layout_height="fill_parent"
             tools:layout="@layout/fragment_question" />
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_completed"
+            android:name="com.asbir.cp5307.edugames.fragments.QuestionFragment"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            tools:layout="@layout/fragment_completed" />
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
